@@ -22,10 +22,27 @@ export default {
     this.yOffset = 0
     iconSize = 48
     iconSpacing = 128
+    this.speed = 0.05
     this.createIcons()
     this.draw()
+    window.addEventListener('resize', this.resize)
   },
   methods: {
+    resize: function (params) {
+      this.width = window.innerWidth
+      this.height = window.innerHeight
+      this.$refs.bg.height = window.innerHeight
+      this.$refs.bg.width = window.innerWidth
+      this.createIcons()
+    },
+    addIcons: function (perwWidth, pervHeight) {
+      let letters = ['X', 'A', 'B', 'C', 'J', 'M', 'N']
+      for (let x = perwWidth; x < this.width + iconSize + iconSpacing; x += iconSize + iconSpacing) {
+        for (let y = perwWidth; y < this.height + iconSize + iconSpacing; y += iconSize + iconSpacing) {
+          this.icons.push(new Icon(x, y, letters[Math.floor(Math.random() * letters.length)]))
+        }
+      }
+    },
     createIcons: function () {
       let letters = ['X', 'A', 'B', 'C', 'J', 'M', 'N']
       this.icons = []
@@ -38,17 +55,21 @@ export default {
     draw: function () {
       requestAnimationFrame(this.draw)
       this.context.clearRect(0, 0, this.width, this.height)
-      this.context.font = "48px Arial"
-      this.context.fillStyle = "#42f2f7"
+      this.context.font = '48px Arial'
+      this.context.fillStyle = '#42f2f7'
       for (let i = 0; i < this.icons.length; i++) {
         const element = this.icons[i]
-        element.x += 0.1
-        element.y += 0.1
+        element.x += this.speed
+        element.y += this.speed
         element.update()
         // this.context.fillStyle = "white"
         // this.context.fillRect(element.x, element.y, iconSize, iconSize)
         this.context.fillText(element.icon, element.x + iconSize / 2 - 16, element.y + iconSize / 2 + 16)
       }
+      if (this.speed < -0.1) {
+        this.speed = 0
+      }
+      this.speed -= 0.02
     }
   }
 }
@@ -63,13 +84,13 @@ class Icon {
     this.icon = icon
   }
   update () {
-    if (this.x > (iconSize + iconSpacing) * ( 1 + Math.floor(window.innerWidth / (iconSize + iconSpacing)))) {
+    if (this.x > (iconSize + iconSpacing) * (1 + Math.floor(window.innerWidth / (iconSize + iconSpacing)))) {
       this.x = -iconSize - iconSpacing
     } else if (this.x < -iconSize - iconSpacing) {
       this.x = window.innerWidth + iconSize
     }
 
-    if (this.y > (iconSize + iconSpacing) * ( 1 + Math.floor(window.innerHeight / (iconSize + iconSpacing)))) {
+    if (this.y > (iconSize + iconSpacing) * (1 + Math.floor(window.innerHeight / (iconSize + iconSpacing)))) {
       this.y = -iconSize - iconSpacing
     } else if (this.y < -iconSize - iconSpacing) {
       this.y = window.innerHeight + iconSize
