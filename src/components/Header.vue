@@ -2,14 +2,7 @@
   <div class="header">
     <div class="container">
       <div class="left">
-        <div class="logo">
-          <div class="img">
-            🤑
-          </div>
-          <div class="text">
-            <h1>Nice<strong>Hash</strong></h1>
-          </div>
-        </div>
+        <Logo />
       </div>
       <div class="right">
         <li><a>Home</a></li>
@@ -24,8 +17,12 @@
 </template>
 
 <script>
+import Logo from './Logo'
 export default {
   name: 'Header',
+  components: {
+    Logo
+  },
   data () {
     return {
 
@@ -49,22 +46,6 @@ export default {
       float: left
     .right
       float: right
-    .left
-      .logo
-        .img, .text
-          display: inline-block
-          vertical-align: middle
-        .text
-          h1
-            margin: 0
-            font-weight: 100
-            color: white
-            strong
-              font-weight: 600
-        .img
-          line-height: 60px
-          font-size: 47px
-          color: #f3b61f
     .right
       li
         list-style: none
