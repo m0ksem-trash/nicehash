@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="d in data" :key="d.id">
+        <tr v-for="d in data" :key="d.id" :class="{'fixed': d.status == 0}">
           <td>
             <span class="status" v-if="d.status == 0" title="Fixed">F</span>
             <span class="status" v-if="d.status == 1" title="Standart">S</span>
@@ -62,13 +62,23 @@ export default {
     return {
       speed: 'N/A',
       data: [
-        {order: '#4242', price: '0.72', limit: '0.03', miners: '56', speed: '0.03', status: 0},
-        {order: '#4242', price: '0.72', limit: '0.03', miners: '56', speed: '0.03', status: 0},
-        {order: '#4242', price: '0.72', limit: '0.03', miners: '56', speed: '0.03', status: 0},
-        {order: '#4242', price: '0.72', limit: '0.03', miners: '56', speed: '0.03', status: 1},
-        {order: '#4242', price: '0.72', limit: '0.03', miners: '56', speed: '0.03', status: 2}
       ]
     }
+  },
+  mounted () {
+    for (let i = 0; i < 50; i++) {
+      const element = {}
+      element.order = '#' + Math.floor(Math.random() * 100000)
+      element.price = Math.floor(Math.random() * 1000) / 1000
+      element.limit = Math.floor(Math.random() * 100) / 1000
+      element.miners = Math.floor(Math.random() * 100)
+      element.speed = Math.floor(Math.random() * 100 + 100) / 1000
+      element.status = Math.floor(Math.random() * 3)
+      this.$data.data.push(element)
+    }
+    this.$data.data.sort(function (a, b) {
+      return a.status - b.status
+    })
   }
 }
 </script>
@@ -136,6 +146,10 @@ export default {
             height: 32px
             vertical-align: bottom
             padding-bottom: 2px
+        tr.fixed
+          background: rgba(0, 0, 0, 0.1)
+        .fixed:last-child
+          background: red
         td
           font-size: 16px
           color: rgba(255, 255, 255, 0.5)
@@ -143,9 +157,9 @@ export default {
           .status
             box-sizing: border-box
             display: inline-block
-            padding: 1px
-            width: 17px
-            height: 17px
+            width: 18px
+            height: 18px
+            line-height: 18px
             border-radius: 50%
             text-align: center
             background: rgba(0, 0, 0, 0.1)
@@ -153,8 +167,10 @@ export default {
             font-size: 14px
             color: rgba(255, 255, 255, 0.3)
             cursor: pointer
+            user-select: none
+            padding: 0 2px 0 0
             &.dead
               background: rgba(244, 91, 105, 0.3)
               text-align: center
-              padding-left: 1.5px
+              padding: 0
 </style>
