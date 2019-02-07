@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="sass">
-button, select, option
+button, select, option, li, h1, h2, h3, h4
   font-family: 'Avenir', Helvetica, Arial, sans-serif
 #app
   font-family: 'Avenir', Helvetica, Arial, sans-serif
