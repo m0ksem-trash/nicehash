@@ -1,7 +1,8 @@
 # nicehash
 
 > A Vue.js project
-
+## Delpoyment
+https://m0ksem-trash.github.io/nicehash/#/
 ## Build Setup
 
 ``` bash
